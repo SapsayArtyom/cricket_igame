@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:876df9ef606ae9399acb36d011f2c77f:5cb632acc75cdeff4b7bcd3219e4222e:7161316c928976babfd826e7bb1b9ffc$ -->
+<TextureAtlas imagePath="payline_circles.png" width="77" height="41">
+    <SubTexture name="payline_circle_empty" x="5" y="5" width="31" height="31" frameWidth="32" frameHeight="32" />
+    <SubTexture name="payline_circle_full" x="41" y="5" width="31" height="31" frameWidth="32" frameHeight="32" />
+</TextureAtlas>

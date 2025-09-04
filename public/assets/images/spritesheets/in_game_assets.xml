@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:0006f83e8f466b025f17bc89104fd979:25492340e29025161f86d826d9ded8a1:2c8dd3fba075671792eb131b42f9326d$ -->
+<TextureAtlas imagePath="in_game_assets.png" width="502" height="508">
+    <SubTexture name="chain" x="446" y="151" rotated="true" width="36" height="13"/>
+    <SubTexture name="coin-bags-portrait-icon" x="332" y="300" rotated="true" width="142" height="95" frameX="-24" frameY="-2" frameWidth="150" frameHeight="150"/>
+    <SubTexture name="Coin4-menu" x="423" y="397" width="78" height="78"/>
+    <SubTexture name="greyout-portrait-panel" x="1" y="222" rotated="true" width="149" height="150"/>
+    <SubTexture name="Panel-in-game" x="1" y="1" width="443" height="219"/>
+    <SubTexture name="Panel-infocoin-portrait" x="446" y="1" rotated="true" width="42" height="148"/>
+    <SubTexture name="Target-Portrait" x="152" y="222" width="141" height="142" frameX="-5" frameY="-5" frameWidth="150" frameHeight="150"/>
+    <SubTexture name="Tile-disable-tablet" x="295" y="222" width="205" height="76" frameX="-5" frameY="-5" frameWidth="210" frameHeight="81"/>
+    <SubTexture name="Tile-light-tablet" x="1" y="374" width="209" height="81" frameX="-1" frameY="0" frameWidth="210" frameHeight="81"/>
+    <SubTexture name="TNT-in-game-icon" x="212" y="366" width="118" height="141" frameX="0" frameY="0" frameWidth="124" frameHeight="141"/>
+    <SubTexture name="TNT-small-menu" x="332" y="397" width="89" height="108"/>
+</TextureAtlas>

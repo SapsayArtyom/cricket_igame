@@ -1,0 +1,62 @@
+
+Symbols.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ball_1
+  rotate: false
+  xy: 275, 167
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 158, 90
+  size: 113, 141
+  orig: 113, 141
+  offset: 0, 0
+  index: -1
+hand_back
+  rotate: false
+  xy: 343, 208
+  size: 46, 23
+  orig: 46, 23
+  offset: 0, 0
+  index: -1
+hand_front
+  rotate: true
+  xy: 107, 6
+  size: 71, 39
+  orig: 71, 39
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 343, 173
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+hit
+  rotate: false
+  xy: 4, 4
+  size: 99, 73
+  orig: 99, 73
+  offset: 0, 0
+  index: -1
+stick
+  rotate: false
+  xy: 275, 119
+  size: 42, 44
+  orig: 42, 44
+  offset: 0, 0
+  index: -1
+target
+  rotate: false
+  xy: 4, 81
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1

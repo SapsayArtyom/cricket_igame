@@ -1,0 +1,45 @@
+{
+"skeleton": { "hash": "Sh1smTn+2LE+WHJw7JrFG6Mvjtw", "spine": "3.7.94", "width": 147.1, "height": 147.1, "images": "./images/", "audio": "D:/In Progress/Cricket Champion/Art Backup/Animations/Source Files/targets" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "ball", "parent": "root", "rotation": -171.08, "scaleX": 1.1, "scaleY": 1.1 },
+	{ "name": "lights_shadows", "parent": "root", "scaleX": 1.1, "scaleY": 1.1 },
+	{ "name": "..", "parent": "root", "x": -3.35, "y": 40.18 }
+],
+"slots": [
+	{ "name": "Game-panell-L", "bone": ".." },
+	{ "name": "ball", "bone": "ball", "attachment": "ball" },
+	{ "name": "light", "bone": "lights_shadows", "color": "ffffff86", "attachment": "light", "blend": "additive" },
+	{ "name": "shadow", "bone": "lights_shadows", "color": "ff00eba7", "attachment": "shadow" },
+	{ "name": "highlight", "bone": "lights_shadows", "attachment": "highlight", "blend": "additive" }
+],
+"skins": {
+	"default": {
+		"ball": {
+			"ball": { "x": -0.04, "y": -0.38, "width": 117, "height": 117 }
+		},
+		"highlight": {
+			"highlight": { "x": 30.48, "y": 22.06, "width": 47, "height": 57 }
+		},
+		"light": {
+			"light": { "x": -1.1, "y": 31.51, "width": 117, "height": 61 }
+		},
+		"shadow": {
+			"shadow": { "x": -0.04, "y": -19.26, "width": 117, "height": 80 }
+		}
+	}
+},
+"animations": {
+	"Target_1_Falls": {
+		"bones": {
+			"ball": {
+				"rotate": [
+					{ "time": 0, "angle": 0 },
+					{ "time": 0.5667, "angle": 180 },
+					{ "time": 1.1333, "angle": 0 }
+				]
+			}
+		}
+	}
+}
+}

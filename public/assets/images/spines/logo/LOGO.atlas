@@ -1,0 +1,34 @@
+
+LOGO.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+landscape
+  rotate: false
+  xy: 4, 4
+  size: 445, 247
+  orig: 445, 247
+  offset: 0, 0
+  index: -1
+landscape_mask
+  rotate: false
+  xy: 453, 19
+  size: 430, 232
+  orig: 430, 232
+  offset: 0, 0
+  index: -1
+portrait
+  rotate: false
+  xy: 887, 143
+  size: 552, 108
+  orig: 552, 108
+  offset: 0, 0
+  index: -1
+portrait_mask
+  rotate: false
+  xy: 887, 43
+  size: 539, 96
+  orig: 539, 96
+  offset: 0, 0
+  index: -1

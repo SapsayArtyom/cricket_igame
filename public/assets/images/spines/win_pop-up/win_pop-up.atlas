@@ -1,0 +1,132 @@
+
+win_pop-up.png
+size: 2048,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+coin/coin1
+  rotate: false
+  xy: 769, 237
+  size: 30, 27
+  orig: 30, 27
+  offset: 0, 0
+  index: -1
+coin/coin12
+  rotate: false
+  xy: 769, 206
+  size: 17, 27
+  orig: 17, 27
+  offset: 0, 0
+  index: -1
+coin/coin13
+  rotate: false
+  xy: 447, 135
+  size: 24, 26
+  orig: 24, 26
+  offset: 0, 0
+  index: -1
+coin/coin14
+  rotate: false
+  xy: 37, 39
+  size: 29, 26
+  orig: 29, 26
+  offset: 0, 0
+  index: -1
+coin/coin2
+  rotate: false
+  xy: 1672, 479
+  size: 26, 29
+  orig: 26, 29
+  offset: 0, 0
+  index: -1
+coin/coin3
+  rotate: true
+  xy: 482, 175
+  size: 17, 32
+  orig: 17, 32
+  offset: 0, 0
+  index: -1
+coin/coin4
+  rotate: true
+  xy: 803, 257
+  size: 7, 33
+  orig: 7, 33
+  offset: 0, 0
+  index: -1
+coin/coin5
+  rotate: true
+  xy: 1262, 271
+  size: 20, 32
+  orig: 20, 32
+  offset: 0, 0
+  index: -1
+coin/coin6
+  rotate: false
+  xy: 4, 36
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+coin/coin7
+  rotate: false
+  xy: 447, 165
+  size: 31, 27
+  orig: 31, 27
+  offset: 0, 0
+  index: -1
+coin/coin8
+  rotate: false
+  xy: 1518, 306
+  size: 29, 27
+  orig: 29, 27
+  offset: 0, 0
+  index: -1
+coin/coin9
+  rotate: false
+  xy: 4, 4
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+vfx/win_blur_light
+  rotate: false
+  xy: 1020, 268
+  size: 238, 240
+  orig: 238, 240
+  offset: 0, 0
+  index: -1
+vfx/win_flakes
+  rotate: false
+  xy: 4, 69
+  size: 439, 439
+  orig: 439, 439
+  offset: 0, 0
+  index: -1
+vfx/win_flare
+  rotate: false
+  xy: 769, 268
+  size: 247, 240
+  orig: 247, 240
+  offset: 0, 0
+  index: -1
+vfx/win_light1
+  rotate: false
+  xy: 1518, 337
+  size: 150, 171
+  orig: 150, 171
+  offset: 0, 0
+  index: -1
+vfx/win_light2
+  rotate: false
+  xy: 1262, 295
+  size: 252, 213
+  orig: 252, 213
+  offset: 0, 0
+  index: -1
+vfx/win_light3
+  rotate: false
+  xy: 447, 196
+  size: 318, 312
+  orig: 318, 312
+  offset: 0, 0
+  index: -1

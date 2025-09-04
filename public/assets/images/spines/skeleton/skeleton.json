@@ -1,0 +1,252 @@
+{
+"skeleton": { "hash": "Xh96Ro1/T9ydaZk+DxqLDjUQ6mE", "spine": "3.7.94", "width": 0, "height": 0, "images": "./images/", "audio": "C:/Users/Serhii Lynnyk/Desktop/digicode/Reevotech/spartan_shields/background/images" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "clouds", "parent": "root" },
+	{ "name": "cloud1", "parent": "clouds", "y": -124.34 },
+	{ "name": "cloud2", "parent": "clouds", "x": -536.36, "y": 22.84 },
+	{ "name": "cloud3", "parent": "clouds", "x": 687.38, "y": 63.64 },
+	{ "name": "stadium", "parent": "root" },
+	{ "name": "background", "parent": "root", "y": 107.5 }
+],
+"slots": [
+	{ "name": "background", "bone": "background" },
+	{ "name": "cloud1", "bone": "cloud1" },
+	{ "name": "cloud2", "bone": "cloud2" },
+	{ "name": "cloud3", "bone": "cloud3" },
+	{ "name": "stadium", "bone": "stadium" },
+	{ "name": "projector1", "bone": "stadium" },
+	{ "name": "projector2", "bone": "stadium" }
+],
+"skins": {
+	"default": {
+		"background": {
+			"background": { "scaleX": 4, "scaleY": 4, "width": 480, "height": 177 }
+		},
+		"cloud1": {
+			"cloud1": { "x": 21, "y": 192.82, "scaleX": 4, "scaleY": 4, "width": 415, "height": 199 }
+		},
+		"cloud2": {
+			"cloud2": { "x": -5.14, "y": -7.38, "scaleX": 4, "scaleY": 4, "width": 166, "height": 83 }
+		},
+		"cloud3": {
+			"cloud3": { "x": -5.38, "y": 3.82, "scaleX": 4, "scaleY": 4, "width": 132, "height": 62 }
+		},
+		"projector1": {
+			"projector": { "x": 749, "y": 62, "width": 427, "height": 187 }
+		},
+		"projector2": {
+			"projector": { "x": -669, "y": 62, "scaleX": -1, "width": 427, "height": 187 }
+		},
+		"stadium": {
+			"stadium": { "y": -238.5, "width": 1920, "height": 603 }
+		}
+	}
+},
+"animations": {
+	"Horizontal": {
+		"slots": {
+			"background": {
+				"attachment": [
+					{ "time": 0, "name": "background" }
+				]
+			},
+			"cloud1": {
+				"color": [
+					{
+						"time": 0,
+						"color": "ffffff00",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 16.6667,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 33.3, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud1" }
+				]
+			},
+			"cloud2": {
+				"color": [
+					{
+						"time": 23.3333,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 33.3333, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud2" }
+				]
+			},
+			"cloud3": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 6.6667, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud3" }
+				]
+			},
+			"projector1": {
+				"attachment": [
+					{ "time": 0, "name": "projector" }
+				]
+			},
+			"projector2": {
+				"attachment": [
+					{ "time": 0, "name": "projector" }
+				]
+			},
+			"stadium": {
+				"attachment": [
+					{ "time": 0, "name": "stadium" }
+				]
+			}
+		},
+		"bones": {
+			"cloud1": {
+				"translate": [
+					{ "time": 0, "x": -216.37, "y": 0 },
+					{ "time": 33.3, "x": 188.27, "y": 0 },
+					{ "time": 33.3333, "x": -216.37, "y": 0 }
+				]
+			},
+			"cloud2": {
+				"translate": [
+					{ "time": 0, "x": -754.77, "y": 0 },
+					{ "time": 33.3333, "x": 736.09, "y": 0 }
+				]
+			},
+			"cloud3": {
+				"translate": [
+					{ "time": 0, "x": -373.2, "y": 0 },
+					{ "time": 33.3333, "x": 545.07, "y": 0 }
+				]
+			},
+			"background": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 87.65 }
+				]
+			},
+			"clouds": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 89.64 }
+				]
+			}
+		}
+	},
+	"Vertical": {
+		"slots": {
+			"background": {
+				"attachment": [
+					{ "time": 0, "name": "background" }
+				]
+			},
+			"cloud1": {
+				"color": [
+					{
+						"time": 0,
+						"color": "ffffff00",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{
+						"time": 16.6667,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 33.3, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud1" }
+				]
+			},
+			"cloud2": {
+				"color": [
+					{
+						"time": 23.3333,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 33.3333, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud2" }
+				]
+			},
+			"cloud3": {
+				"color": [
+					{ "time": 0, "color": "ffffff00" },
+					{ "time": 6.6667, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "cloud3" }
+				]
+			},
+			"projector1": {
+				"attachment": [
+					{ "time": 0, "name": "projector" }
+				]
+			},
+			"projector2": {
+				"attachment": [
+					{ "time": 0, "name": "projector" }
+				]
+			},
+			"stadium": {
+				"attachment": [
+					{ "time": 0, "name": "stadium" }
+				]
+			}
+		},
+		"bones": {
+			"cloud1": {
+				"translate": [
+					{ "time": 0, "x": -216.37, "y": 0 },
+					{ "time": 33.3, "x": 188.27, "y": 0 },
+					{ "time": 33.3333, "x": -216.37, "y": 0 }
+				]
+			},
+			"cloud2": {
+				"translate": [
+					{ "time": 0, "x": -507.76, "y": 308.32 },
+					{ "time": 33.3333, "x": 736.09, "y": 308.32 }
+				]
+			},
+			"cloud3": {
+				"translate": [
+					{ "time": 0, "x": -813.36, "y": 383.97 },
+					{ "time": 33.3333, "x": 43.17, "y": 383.97 }
+				]
+			},
+			"clouds": {
+				"translate": [
+					{ "time": 0, "x": 54.64, "y": 3.02 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1.5, "y": 1.5 }
+				]
+			},
+			"stadium": {
+				"translate": [
+					{ "time": 0, "x": -21.15, "y": -32.43 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.77, "y": 1.767 }
+				]
+			},
+			"background": {
+				"translate": [
+					{ "time": 0, "x": 0, "y": 207.27 }
+				],
+				"scale": [
+					{ "time": 0, "x": 0.785, "y": 1.832 }
+				]
+			}
+		}
+	}
+}
+}

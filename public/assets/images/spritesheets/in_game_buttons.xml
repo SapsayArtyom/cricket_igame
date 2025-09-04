@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:b4e2350778f185f35934deba5a401692:65c62f4474845b0df3636388ccf50f58:a78643d8fd171a82c9e42386bf39d1c7$ -->
+<TextureAtlas imagePath="in_game_buttons.png" width="531" height="496">
+    <SubTexture name="Bulett-empty" x="471" y="284" width="59" height="59" frameX="-1" frameY="-1" frameWidth="61" frameHeight="61"/>
+    <SubTexture name="Bulett-full" x="471" y="345" width="59" height="59" frameX="-1" frameY="-1" frameWidth="61" frameHeight="61"/>
+    <SubTexture name="Cash-out-disable" x="1" y="1" width="281" height="230"/>
+    <SubTexture name="Cash-out-selected" x="284" y="1" rotated="true" width="230" height="281"/>
+    <SubTexture name="Play-activate-state" x="258" y="284" width="211" height="211" frameX="-22" frameY="-24" frameWidth="256" frameHeight="258"/>
+    <SubTexture name="Play-highlight-state" x="1" y="233" width="255" height="255" frameX="0" frameY="-1" frameWidth="256" frameHeight="258"/>
+    <SubTexture name="Play-start-state" x="258" y="284" width="211" height="211" frameX="-22" frameY="-24" frameWidth="256" frameHeight="258"/>
+</TextureAtlas>

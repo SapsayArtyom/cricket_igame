@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:2a535e84845687f2ae8b9f9f281d161b:da8876d1a61861e9029181d5050a1572:3b00f37d13135669311032c49a3a10f3$ -->
+<TextureAtlas imagePath="pageAssets.png" width="1230" height="253">
+    <SubTexture name="Btn_Accept" x="1116" y="71" width="62" height="62"/>
+    <SubTexture name="Btn_CLOSE" x="1109" y="194" width="46" height="46"/>
+    <SubTexture name="Btn_MINUS" x="1009" y="212" width="38" height="38"/>
+    <SubTexture name="Btn_PLAY" x="1009" y="113" width="96" height="95"/>
+    <SubTexture name="Btn_PLUS" x="1051" y="212" width="38" height="38"/>
+    <SubTexture name="checkOFF" x="1109" y="137" width="53" height="53"/>
+    <SubTexture name="checkON" x="1182" y="71" width="45" height="45"/>
+    <SubTexture name="FR_num_Base" x="3" y="3" width="1002" height="206"/>
+    <SubTexture name="history_copy_btn" x="1009" y="3" width="103" height="106"/>
+    <SubTexture name="historyDetails" x="1116" y="3" width="64" height="64"/>
+    <SubTexture name="left-chevron" x="1184" y="3" width="30" height="64"/>
+    <SubTexture name="right-chevron" x="1166" y="137" width="30" height="64"/>
+    <SubTexture name="Scroller" x="1200" y="120" width="17" height="102"/>
+    <SubTexture name="toggleBtn" x="3" y="213" width="34" height="34"/>
+</TextureAtlas>

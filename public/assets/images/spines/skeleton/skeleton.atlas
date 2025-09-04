@@ -1,0 +1,48 @@
+
+skeleton.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+background
+  rotate: false
+  xy: 4, 108
+  size: 240, 89
+  orig: 240, 89
+  offset: 0, 0
+  index: -1
+cloud1
+  rotate: false
+  xy: 4, 4
+  size: 208, 100
+  orig: 208, 100
+  offset: 0, 0
+  index: -1
+cloud2
+  rotate: true
+  xy: 968, 420
+  size: 83, 42
+  orig: 83, 42
+  offset: 0, 0
+  index: -1
+cloud3
+  rotate: false
+  xy: 466, 166
+  size: 66, 31
+  orig: 66, 31
+  offset: 0, 0
+  index: -1
+projector
+  rotate: false
+  xy: 248, 103
+  size: 214, 94
+  orig: 214, 94
+  offset: 0, 0
+  index: -1
+stadium
+  rotate: false
+  xy: 4, 201
+  size: 960, 302
+  orig: 960, 302
+  offset: 0, 0
+  index: -1

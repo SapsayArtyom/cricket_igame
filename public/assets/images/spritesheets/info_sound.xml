@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:0b22b8430f4eb4d4df53ed11ca9b7ba7:3d3aae4f3689f23e7f123baf00fef1f0:2c73e4750de1be54a195bdf6d0b01648$ -->
+<TextureAtlas imagePath="info_sound.png" width="817" height="84">
+    <SubTexture name="info_disabled" x="388" y="1" width="84" height="81" frameX="0" frameY="-1" frameWidth="84" frameHeight="82"/>
+    <SubTexture name="info_normal" x="222" y="1" rotated="true" width="81" height="82" frameX="0" frameY="0" frameWidth="82" frameHeight="82"/>
+    <SubTexture name="info_highlighted" x="305" y="1" rotated="true" width="81" height="82" frameX="0" frameY="0" frameWidth="82" frameHeight="82"/>
+    <SubTexture name="info_pressed" x="222" y="1" rotated="true" width="81" height="82" frameX="-1" frameY="-1" frameWidth="84" frameHeight="82"/>
+    <SubTexture name="info_sound_bar" x="1" y="1" width="219" height="82" frameX="-2" frameY="-4" frameWidth="222" frameHeight="87"/>
+    <SubTexture name="sound_highlighted" x="474" y="1" width="84" height="81" frameX="0" frameY="-1" frameWidth="84" frameHeight="82"/>
+    <SubTexture name="sound_normal" x="560" y="1" width="84" height="81" frameX="0" frameY="-1" frameWidth="84" frameHeight="82"/>
+    <SubTexture name="sound_off" x="646" y="1" width="84" height="81" frameX="0" frameY="-1" frameWidth="84" frameHeight="82"/>
+    <SubTexture name="sound_on" x="732" y="1" width="84" height="81" frameX="0" frameY="-1" frameWidth="84" frameHeight="82"/>
+</TextureAtlas>

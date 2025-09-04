@@ -1,0 +1,114 @@
+{
+"skeleton": { "hash": "PNvvyGfagQQN/S9v9E1mFl+tpBM", "spine": "3.7.94", "width": 0, "height": 0, "images": "./images/", "audio": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "mask", "parent": "root", "x": -377.91, "y": -13 }
+],
+"slots": [
+	{ "name": "landscape", "bone": "root" },
+	{ "name": "portrait", "bone": "root" },
+	{ "name": "mask", "bone": "mask", "attachment": "mask" },
+	{ "name": "landscape_add", "bone": "root", "blend": "additive" },
+	{ "name": "portrait_add", "bone": "root", "blend": "additive" },
+	{ "name": "landscape_mask", "bone": "root" },
+	{ "name": "portrait_mask", "bone": "root" }
+],
+"skins": {
+	"default": {
+		"landscape": {
+			"landscape": { "width": 445, "height": 247 }
+		},
+		"landscape_add": {
+			"landscape": { "x": 0.5, "y": 0.5, "width": 445, "height": 247 }
+		},
+		"landscape_mask": {
+			"landscape_mask": { "width": 430, "height": 232 }
+		},
+		"mask": {
+			"mask": {
+				"type": "clipping",
+				"end": "portrait_add",
+				"vertexCount": 4,
+				"vertices": [ 201.33, 165.8, 166.99, 201.11, -151.74, -116.66, -116.44, -151 ],
+				"color": "ce3a3aff"
+			}
+		},
+		"portrait": {
+			"portrait": { "width": 552, "height": 108 }
+		},
+		"portrait_add": {
+			"portrait": { "width": 552, "height": 108 }
+		},
+		"portrait_mask": {
+			"portrait_mask": { "width": 539, "height": 96 }
+		}
+	}
+},
+"animations": {
+	"logo_landscape": {
+		"slots": {
+			"landscape": {
+				"attachment": [
+					{ "time": 0, "name": "landscape" }
+				]
+			},
+			"landscape_add": {
+				"attachment": [
+					{ "time": 0, "name": "landscape" }
+				]
+			},
+			"landscape_mask": {
+				"attachment": [
+					{ "time": 0, "name": "landscape_mask" }
+				]
+			}
+		},
+		"bones": {
+			"mask": {
+				"translate": [
+					{ "time": 0, "x": -2.56, "y": 2.56, "curve": "stepped" },
+					{
+						"time": 0.1667,
+						"x": -2.56,
+						"y": 2.56,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.8333, "x": 734.35, "y": -10.26 }
+				]
+			}
+		}
+	},
+	"logo_portrait": {
+		"slots": {
+			"portrait": {
+				"attachment": [
+					{ "time": 0, "name": "portrait" }
+				]
+			},
+			"portrait_add": {
+				"attachment": [
+					{ "time": 0, "name": "portrait" }
+				]
+			},
+			"portrait_mask": {
+				"attachment": [
+					{ "time": 0, "name": "portrait_mask" }
+				]
+			}
+		},
+		"bones": {
+			"mask": {
+				"translate": [
+					{
+						"time": 0.1667,
+						"x": 0,
+						"y": 0,
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.8333, "x": 728.37, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}
