@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// atlasLoader.v6.ts
-import { Spritesheet, Texture } from 'pixi.js';
-import { Assets } from '@pixi/assets';
+import { Assets, Spritesheet, Texture } from 'pixi.js';
 
 export type PreloadStep = 'xml' | 'image' | 'parse' | 'done';
 export interface ProgressInfo {
@@ -9,17 +7,15 @@ export interface ProgressInfo {
   completedAtlases: number;
   totalAtlases: number;
   step: PreloadStep;
-  url: string;          // абсолютный URL XML
+  url: string;
   atlasName?: string;
 }
 export interface PreloadOptions {
   onProgress?: (p: ProgressInfo) => void;
   weights?: { xml: number; image: number; parse: number };
-  /** 2 = 90°; 6 = 270°. Если спрайты «лежат», попробуйте 6. */
-  rotateQuarterTurn?: 2 | 6;
 }
 
-/* ---------------- helpers ---------------- */
+/* ------------ helpers ------------ */
 
 const fileBaseName = (url: string) =>
     (url.split('/').pop() || '').replace(/\.[a-z0-9]+$/i, '');
@@ -28,6 +24,7 @@ const isAbsoluteUrl = (u: string) => /^[a-z]+:\/\//i.test(u);
 
 const toAbsoluteWithBase = (pathOrUrl: string): string => {
     if (isAbsoluteUrl(pathOrUrl)) return pathOrUrl;
+
     const base = (import.meta as any).env?.BASE_URL ?? '/';
     const baseClean = base.endsWith('/') ? base : base + '/';
     const relClean = pathOrUrl.replace(/^\/+/, '');
@@ -35,32 +32,15 @@ const toAbsoluteWithBase = (pathOrUrl: string): string => {
     return new URL(relClean, baseAbs).toString();
 };
 
-function validateFramesFit(
-    baseWidth: number,
-    baseHeight: number,
-    frames: Record<string, { frame: { x:number; y:number; w:number; h:number } }>
-) {
-    for (const [name, f] of Object.entries(frames)) {
-        const ok = f.frame.x + f.frame.w <= baseWidth && f.frame.y + f.frame.h <= baseHeight;
-        if (!ok) return { name, frame: f.frame, baseWidth, baseHeight };
-    }
-    return null;
-}
-
-/* ---------------- core ---------------- */
-
 async function loadXmlToSpritesheet(
     xmlAbsUrl: string,
     onStep?: (step: PreloadStep, ctx: { url: string; atlasName?: string }) => void
-): Promise<{ sheet: Spritesheet; atlasName: string; imgUrl: string; rotatedNames: Set<string> }> {
+): Promise<{ sheet: Spritesheet; atlasName: string }> {
     onStep?.('xml', { url: xmlAbsUrl });
 
     const res = await fetch(xmlAbsUrl, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`Failed to fetch XML: ${res.status} ${res.statusText} @ ${xmlAbsUrl}`);
     const xmlText = await res.text();
-    if (/<!DOCTYPE html>|<html[\s>]/i.test(xmlText)) {
-        throw new Error(`Expected XML, got HTML at ${xmlAbsUrl}. Проверьте путь/BASE_URL/сервер.`);
-    }
 
     const doc = new DOMParser().parseFromString(xmlText, 'application/xml');
     const parseErr = doc.getElementsByTagName('parsererror')[0];
@@ -72,16 +52,12 @@ async function loadXmlToSpritesheet(
     const imagePathRaw = atlasEl.getAttribute('imagePath') ?? '';
     const imagePath = imagePathRaw.replace(/\\/g, '/');
 
-    // путь к png относительно xml
     const imgUrl = new URL(imagePath || '.', xmlAbsUrl).toString();
     const atlasName = fileBaseName(imagePath) || fileBaseName(imgUrl);
 
     onStep?.('xml', { url: xmlAbsUrl, atlasName });
 
-    // Собираем frames БЕЗ rotated (важно для Pixi v6!)
     const frames: Record<string, any> = {};
-    const rotatedNames = new Set<string>();
-
     const subs = atlasEl.getElementsByTagName('SubTexture');
     for (let i = 0; i < subs.length; i++) {
         const st = subs[i];
@@ -90,60 +66,40 @@ async function loadXmlToSpritesheet(
         const y = +(st.getAttribute('y') ?? 0);
         const w = +(st.getAttribute('width') ?? 0);
         const h = +(st.getAttribute('height') ?? 0);
-        const isRot = (st.getAttribute('rotated') ?? 'false') === 'true';
-
-        // ВАЖНО: НЕ ставим rotated в данные — Pixi v6 сам будет «свапать» и это ломает границы.
-        if (isRot) rotatedNames.add(name);
+        const rotated = (st.getAttribute('rotated') ?? 'false') === 'true';
 
         frames[name] = {
-            frame: { x, y, w, h },        // ровно как в XML
+            frame: { x, y, w, h },
+            rotated,
             trimmed: false,
             spriteSourceSize: { x: 0, y: 0, w, h },
             sourceSize: { w, h },
-            // anchor можно добавить при необходимости
+            pivot: { x: 0, y: 0 },
         };
     }
 
-    // Грузим png
+    const json = { frames, meta: { image: imgUrl, scale: '1' } };
+
     onStep?.('image', { url: xmlAbsUrl, atlasName });
     const baseTexture = await Assets.load(imgUrl);
-    const baseW = (baseTexture as any).realWidth ?? (baseTexture as any).width;
-    const baseH = (baseTexture as any).realHeight ?? (baseTexture as any).height;
-
-    // Валидация — без учёта rotation (как на атласе)
-    const bad = validateFramesFit(baseW, baseH, frames);
-    if (bad) {
-        const { name, frame, baseWidth, baseHeight } = bad;
-        throw new Error(
-            `Frame "${name}" не помещается в PNG ${imgUrl}.
-frame: x=${frame.x}, y=${frame.y}, w=${frame.w}, h=${frame.h}
-image size: ${baseWidth}x${baseHeight}
-Скорее всего, XML и PNG не пара или png резолвится не туда.`
-        );
-    }
-
-    // Данные спрайтшита (без meta.image — в v6 его нет в типах)
-    const data = { frames, meta: { scale: '1' } };
 
     onStep?.('parse', { url: xmlAbsUrl, atlasName });
-    const sheet = new Spritesheet(baseTexture, data as any);
+    const sheet = new Spritesheet(baseTexture, json);
     await sheet.parse();
 
-    return { sheet, atlasName, imgUrl, rotatedNames };
+    return { sheet, atlasName };
 }
-
-/* ---------------- public API ---------------- */
 
 export async function preloadAtlases(xmlPathsOrUrls: string[], opts: PreloadOptions = {}) {
     const w = { xml: 1, image: 5, parse: 1, ...(opts.weights ?? {}) };
     const totalAtlases = xmlPathsOrUrls.length;
     const unitsPerAtlas = w.xml + w.image + w.parse;
-    const rotateQuarterTurn = opts.rotateQuarterTurn ?? 2; // 2 = 90°, 6 = 270°
 
     const absoluteXmlUrls = xmlPathsOrUrls.map(toAbsoluteWithBase);
 
     let doneUnits = 0;
     let completedAtlases = 0;
+
     const emit = (step: PreloadStep, url: string, atlasName?: string, addUnits = 0) => {
         doneUnits += addUnits;
         const percent = Math.min(100, Math.round((doneUnits / (unitsPerAtlas * totalAtlases)) * 100));
@@ -152,29 +108,25 @@ export async function preloadAtlases(xmlPathsOrUrls: string[], opts: PreloadOpti
 
     for (const xmlAbsUrl of absoluteXmlUrls) {
         let currentAtlas: string | undefined;
+
         const onStep = (step: PreloadStep, ctx: { url: string; atlasName?: string }) => {
             if (ctx.atlasName) currentAtlas = ctx.atlasName;
-            const add = step === 'xml' ? w.xml : step === 'image' ? w.image : step === 'parse' ? w.parse : 0;
+            const add =
+        step === 'xml' ? w.xml :
+            step === 'image' ? w.image :
+                step === 'parse' ? w.parse : 0;
             emit(step, ctx.url, currentAtlas, add);
         };
 
-        const { sheet, atlasName, rotatedNames } = await loadXmlToSpritesheet(xmlAbsUrl, onStep);
+        const { sheet, atlasName } = await loadXmlToSpritesheet(xmlAbsUrl, onStep);
 
-        // Пост-обработка rotation для тех, кто был rotated в XML:
         for (const [name, tex] of Object.entries(sheet.textures)) {
-            if (rotatedNames.has(name)) {
-                // имитируем поведение парсера: четверть-оборот
-                (tex as any).rotate = rotateQuarterTurn; // 2 (90°) или 6 (270°)
-                if (typeof (tex as any).updateUvs === 'function') {
-                    (tex as any).updateUvs();
-                }
+            Assets.cache.set(name, tex);
+            Assets.cache.set(`${atlasName}/${name}`, tex);
+            if (typeof (Texture as any).addToCache === 'function') {
+                (Texture as any).addToCache(tex, name);
+                (Texture as any).addToCache(tex, `${atlasName}/${name}`);
             }
-
-            // Регистрируем для Sprite.from(...)
-            Texture.addToCache(tex as Texture, name);
-            Texture.addToCache(tex as Texture, `${atlasName}/${name}`);
-            Assets.cache?.set?.(name, tex as Texture);
-            Assets.cache?.set?.(`${atlasName}/${name}`, tex as Texture);
         }
 
         completedAtlases++;

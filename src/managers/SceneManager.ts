@@ -15,7 +15,7 @@ export default class SceneManager {
     constructor(container: Container) {
         this.gameContainer = container;
         this.isInitScenes = false;
-        this.subscribeToEvents();
+        // this.subscribeToEvents();
         this.initSplashScreen();
     }
 
@@ -27,6 +27,7 @@ export default class SceneManager {
     private initSplashScreen(): void {
         const splashScreen = new SplashScreen();
         this.screens.set(SCREENS.SPLASH, splashScreen);
+        this.gameContainer.addChild(splashScreen);
     }
     
     public init(): void {

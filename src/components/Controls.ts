@@ -1,56 +1,75 @@
 import { Container, Sprite, Text } from "pixi.js";
 import { Button } from "./btn";
 import { config } from "../configs/config";
+import globalEventEmitter from "../helpers/GlobalEventEmitters";
+import { EVENTS } from "../helpers/events";
+import { Spine } from "pixi-spine";
+import { spineCache } from "../helpers/loadSpineJSON";
 
 export default class Controls extends Container {
     private betContainer: Container;
     private hitterContainer: Container;
+    private btnContainer: Container;
     private betValue: number;
     private hitterValue: number;
     private textBet!: Text;
     private textHitter!: Text;
     private minusBtnHitter!: Button;
+    private plusBtnHitter!: Button;
+    private minusBtnBet!: Button;
+    private plusBtnBet!: Button;
+    private playBtn!: Button;
+    private betBtn!: Button;
+    private bullets: number
+    private hand!: Spine;
+    private handContainer!: Container;
 
     constructor() {
         super();
         
         this.betContainer = new Container();
         this.hitterContainer = new Container();
+        this.btnContainer = new Container();
+        this.handContainer = new Container();
 
-        this.betValue = 10;
-        this.hitterValue = 1;
+        this.betValue = config.defaultBet;
+        this.hitterValue = config.defaultHitter;
+        this.bullets = config.cells;
 
         this.initBetControls();
         this.initHitterControls();
         this.addPlayBtn();
+        this.addHand();
+        this.subscribeToEvents();
+        this.addChild(this.betContainer, this.hitterContainer, this.btnContainer, this.handContainer);
+    }
 
-        this.addChild(this.betContainer, this.hitterContainer);
+    private subscribeToEvents() {
+        globalEventEmitter.on(EVENTS.LOSS, () => this.disableControls(false));
     }
 
     private initBetControls() {
         const sprite = Sprite.from('Panel-in-game');
         this.betContainer.addChild(sprite);
 
-        const text = new Text({ 
-            text: 'BET',
-            style: { 
-                fontSize: 26, 
-                fill: 0xffffff,
-                stroke: { color: '#0039e2', width: 8, join: 'round' },
-            }
+        const text = new Text('BET', { 
+            fontFamily: "Roboto Bold",
+            fontSize: 26, 
+            fill: 0xffffff,
+            stroke: '#0039e2',
+            strokeThickness: 4,
         });
         text.position.set(
             (sprite.width - text.width) / 2, 
             20
         );
-        
-        this.textBet = new Text({ 
-            text: `$${this.betValue}`,
-            style: { 
-                fontSize: 40, 
-                fill: 0xffffff,
-                stroke: { color: '#0039e2', width: 8, join: 'round' },
-            }
+
+        this.textBet = new Text(`$${this.betValue}`, {
+            fontFamily: "Roboto Bold",
+            fontSize: 40, 
+            fill: 0xffffff,
+            stroke: '#0039e2',
+            strokeThickness: 4,
         });
         this.textBet.position.set(
             (sprite.width - this.textBet.width) / 2, 
@@ -65,7 +84,7 @@ export default class Controls extends Container {
 
         this.betContainer.addChild(text, coins, this.textBet);
 
-        const plus = new Button({
+        this.plusBtnBet = new Button({
             textures: {
                 default: 'plus_normal',
             },
@@ -73,12 +92,12 @@ export default class Controls extends Container {
                 this.updateBetDisplay(10);
             }
         });
-        plus.position.set(
+        this.plusBtnBet.position.set(
             sprite.width - 70,
             sprite.height/ 2
         );
-        
-        const minus = new Button({
+
+        this.minusBtnBet = new Button({
             textures: {
                 default: 'minus_normal',
             },
@@ -87,11 +106,11 @@ export default class Controls extends Container {
                 console.log('minus button clicked');
             }
         });
-        minus.position.set(
+        this.minusBtnBet.position.set(
             70,
             sprite.height/ 2
         );
-        this.betContainer.addChild(plus, minus);
+        this.betContainer.addChild(this.plusBtnBet, this.minusBtnBet);
     }
 
     private initHitterControls() {
@@ -99,25 +118,17 @@ export default class Controls extends Container {
         this.hitterContainer.addChild(sprite);
         this.hitterContainer.y = this.betContainer.getBounds().bottom + 10;
 
-        const text = new Text({ 
-            text: 'Big Hitter',
-            style: { 
-                fontSize: 26, 
-                fill: 0xffffff,
-                stroke: { color: '#0039e2', width: 8, join: 'round' },
-            }
-        });
+        const text = new Text('Big Hitter', config.styles.default);
         text.position.set(
             120, 
             20
         );
-        this.textHitter = new Text({ 
-            text: this.hitterValue.toString(),
-            style: { 
-                fontSize: 50, 
-                fill: 0xffffff,
-                stroke: { color: '#0039e2', width: 8, join: 'round' },
-            }
+        this.textHitter = new Text(this.hitterValue.toString(), { 
+            fontFamily: "Roboto Bold",
+            fontSize: 56, 
+            fill: 0xffffff,
+            stroke: '#0039e2',
+            strokeThickness: 4,
         });
         this.textHitter.position.set(
             150, 
@@ -130,7 +141,7 @@ export default class Controls extends Container {
             (sprite.height - hero.height) / 2
         );
 
-        const plus = new Button({
+        this.plusBtnHitter = new Button({
             textures: {
                 default: 'plus_normal',
             },
@@ -139,7 +150,7 @@ export default class Controls extends Container {
                 this.updateHitterDisplay(1);
             }
         });
-        plus.position.set(
+        this.plusBtnHitter.position.set(
             sprite.width - 70,
             sprite.height/ 2
         );
@@ -151,47 +162,114 @@ export default class Controls extends Container {
             onClick: () => {
                 console.log('minus button clicked');
                 this.updateHitterDisplay(-1);
-            }
+            },
+            disabled: true,
         });
         this.minusBtnHitter.position.set(
             70,
             sprite.height/ 2
         );
-        this.minusBtnHitter.alpha = 0.5;
-        this.hitterContainer.addChild(text, this.textHitter, hero, plus, this.minusBtnHitter);
+        this.hitterContainer.addChild(text, this.textHitter, hero, this.plusBtnHitter, this.minusBtnHitter);
     }
 
     private addPlayBtn() {
-        const playBtn = new Button({
+        this.playBtn = new Button({
             textures: {
                 default: 'Play-start-state',
+                hover: 'Play-highlight-state',
+                pressed: 'Play-activate-state',
             },
+            hoverScale: 1,
             label: 'PLAY',
             labelStyle: config.styles.buttonLabel,
             onClick: () => {
-                console.log('Play button clicked');
+                // this.playBtn.visible = false;
+                // this.betBtn.visible = true;
+                // globalEventEmitter.emit(EVENTS.PLAY, { 
+                //     bullets: this.bullets - (this.hitterValue - 1), 
+                //     bet: this.betValue, 
+                //     hitter: this.hitterValue
+                // });
+                this.playGame();
             }
         });
-        playBtn.position.set(
+        this.betBtn = new Button({
+            textures: {
+                hover: 'Cash-out-disable',
+                default: 'Cash-out-disable',
+                // default: 'Cash-out-selected',
+            },
+            disabled: true,
+            hoverScale: 1,
+            label: 'CASH OUT',
+            labelStyle: config.styles.betBtn,
+            onClick: () => {
+                console.log('Bet button clicked');
+            }
+        });
+        this.betBtn.visible = false;
+        this.betBtn.setPositionLabel(0, 70);
+        this.btnContainer.addChild(this.playBtn, this.betBtn);
+        this.btnContainer.position.set(
             this.hitterContainer.width / 2,
-            350
+            this.hitterContainer.getBounds().bottom + this.btnContainer.height / 2 + 20
         );
-        this.hitterContainer.addChild(playBtn);
+    }
+
+    private addHand() {
+        this.hand = spineCache.createSpine('spines', 'pistol_hand');
+        // this.hand = spineCache.createSpine('spines', 'coin');
+        // this.hand.state.setAnimation(0, 'coins_Win', true);
+        this.hand.state.setAnimation(0, 'Idle_pistol_off', true);
+        this.hand.position.set(this.hand.width / 2, this.hand.height / 2);
+        this.handContainer.addChild(this.hand);
+
+        this.handContainer.position.set(
+            20,
+            852
+        );
     }
 
     private updateBetDisplay(amount: number) {
         if (this.betValue + amount < 10) return;
 
         this.betValue += amount;
+        globalEventEmitter.emit('COUNT_BET', this.betValue);
         this.textBet.text = `$${this.betValue}`;
     }
 
     private updateHitterDisplay(num: number) {
-        if (this.hitterValue + num < 1) return;
+        if (this.hitterValue + num < 1 || this.hitterValue + num > this.bullets) return;
         this.hitterValue += num;
+        globalEventEmitter.emit('COUNT_HITTER', this.hitterValue);
         this.textHitter.text = this.hitterValue.toString();
-        if (this.hitterValue === 1) this.minusBtnHitter.alpha = 0.5;
-        else this.minusBtnHitter.alpha = 1;
+        if (this.hitterValue === 1) this.minusBtnHitter.setDisabled(true);
+        else this.minusBtnHitter.setDisabled(false);
+
+        if (this.hitterValue === 24) this.plusBtnHitter.setDisabled(true);
+        else this.plusBtnHitter.setDisabled(false);
+    }
+
+    private playGame() {
+        this.bullets -= (this.hitterValue - 1);
+        this.disableControls(true);
+        globalEventEmitter.emit(EVENTS.PLAY, { 
+            bullets: this.bullets, 
+            bet: this.betValue, 
+            hitter: this.hitterValue
+        });
+        this.hand.state.addAnimation(0, 'Idle_pistol_on', true, 0);
+    }
+
+    private disableControls(bool: boolean = true) {
+        this.plusBtnHitter.setDisabled(bool);
+        this.minusBtnHitter.setDisabled(bool);
+        this.plusBtnBet.setDisabled(bool);
+        this.minusBtnBet.setDisabled(bool);
+
+        this.playBtn.visible = !bool;
+        this.betBtn.visible = bool;
+        this.betBtn.setDisabled(!bool);
     }
 
 }

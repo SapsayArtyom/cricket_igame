@@ -1,37 +1,46 @@
 export const assetsSplash = [
-    {alias: 'BGLoadLand', src: './assets/images/BG-load-land.jpg'},
-    {alias: 'BGLoadPort', src: './assets/images/BG-load-port.jpg'},
-    {alias: 'GamePanelLandscape', src: './assets/images/Game-panel-landscape.png'},
-    {alias: 'GamePanelPortrait', src: './assets/images/Game-panel-portrait.png'},
-    {alias: 'loading_bar_empty_end', src: './assets/images/loading_bar_empty_end.png'},
-    {alias: 'loading_bar_empty_middle', src: './assets/images/loading_bar_empty_middle.png'},
-    {alias: 'loading_bar_end', src: './assets/images/loading_bar_end.png'},
-    {alias: 'loading_bar_middle', src: './assets/images/loading_bar_middle.webp'},
+    {name: 'BGLoadLand', srcs: './assets/images/BG-load-land.jpg'},
+    {name: 'BGLoadPort', srcs: './assets/images/BG-load-port.jpg'},
+    {name: 'GamePanelLandscape', srcs: './assets/images/Game-panel-landscape.png'},
+    {name: 'GamePanelPortrait', srcs: './assets/images/Game-panel-portrait.png'},
+    {name: 'loading_bar_empty_end', srcs: './assets/images/loading_bar_empty_end.png'},
+    {name: 'loading_bar_empty_middle', srcs: './assets/images/loading_bar_empty_middle.png'},
+    {name: 'loading_bar_end', srcs: './assets/images/loading_bar_end.png'},
+    {name: 'loading_bar_middle', srcs: './assets/images/loading_bar_middle.webp'},
 ]
 
 export const assetsBundle = [
-    {alias: 'gradient', src: './assets/images/gradient.png'},
-    {alias: 'loadingLand', src: './assets/images/loadingLand.jpg'},
-    {alias: 'loadingPort', src: './assets/images/loadingPort.jpg'},
+    {name: 'gradient', srcs: './assets/images/gradient.png'},
+    {name: 'loadingLand', srcs: './assets/images/loadingLand.jpg'},
+    {name: 'loadingPort', srcs: './assets/images/loadingPort.jpg'},
     
-    // spines
-    {alias: "skeleton", src: "./assets/images/spines/skeleton/skeleton.png"},
-    {alias: "skeletonAtlas", src: "./assets/images/spines/skeleton/skeleton.atlas"},
-
     // sound
-    {alias: 'Bag_of_money_revealed', src: './assets/audio/Bag_of_money_revealed.mp3'},
-    {alias: 'big_hitter_minus', src: './assets/audio/big_hitter_minus.mp3'},
-    {alias: 'big_hitter_plus', src: './assets/audio/big_hitter_plus.mp3'},
-    {alias: 'button_click', src: './assets/audio/button_click.mp3'},
-    {alias: 'CASH_OUT_press_sound', src: './assets/audio/CASH_OUT_press_sound.mp3'},
-    {alias: 'general_ambiance', src: './assets/audio/general_ambiance.mp3'},
-    {alias: 'minus_button', src: './assets/audio/minus_button.mp3'},
-    {alias: 'PLAY_press_sound', src: './assets/audio/PLAY_press_sound.mp3'},
-    {alias: 'plus_button', src: './assets/audio/plus_button.mp3'},
-    {alias: 'spin_click', src: './assets/audio/spin_click.mp3'},
-    {alias: 'Target_clicked', src: './assets/audio/Target_clicked.mp3'},
-    {alias: 'TNT_revealed', src: './assets/audio/TNT_revealed.mp3'},
+    {name: 'Bag_of_money_revealed', srcs: './assets/audio/Bag_of_money_revealed.mp3'},
+    {name: 'big_hitter_minus', srcs: './assets/audio/big_hitter_minus.mp3'},
+    {name: 'big_hitter_plus', srcs: './assets/audio/big_hitter_plus.mp3'},
+    {name: 'button_click', srcs: './assets/audio/button_click.mp3'},
+    {name: 'CASH_OUT_press_sound', srcs: './assets/audio/CASH_OUT_press_sound.mp3'},
+    {name: 'general_ambiance', srcs: './assets/audio/general_ambiance.mp3'},
+    {name: 'minus_button', srcs: './assets/audio/minus_button.mp3'},
+    {name: 'PLAY_press_sound', srcs: './assets/audio/PLAY_press_sound.mp3'},
+    {name: 'plus_button', srcs: './assets/audio/plus_button.mp3'},
+    {name: 'spin_click', srcs: './assets/audio/spin_click.mp3'},
+    {name: 'Target_clicked', srcs: './assets/audio/Target_clicked.mp3'},
+    {name: 'TNT_revealed', srcs: './assets/audio/TNT_revealed.mp3'},
+
+    //  fonts
+    {name: 'Roboto-Bold', srcs: './assets/fonts/Roboto-Bold.ttf'},
+    {name: 'Roboto-Regular', srcs: './assets/fonts/Roboto-Regular.ttf'},
 ];
+
+export const assetsSpines = [
+    {alias: "skeleton", json: "./assets/images/spines/skeleton/skeleton.json"},
+    {alias: "logo", json: "./assets/images/spines/logo/LOGO.json"},
+    {alias: "pistol_hand", json: "./assets/images/spines/pistol_hand/Pistol_hand.json"},
+    {alias: "coin", json: "./assets/images/spines/coin/coin.json"},
+    {alias: "target", json: "./assets/images/spines/targets/Targets.json"},
+    {alias: "deflect", json: "./assets/images/spines/symbols/Symbols.json"},
+]
 
 export const assetsSpritesheets = [
     '/assets/images/spritesheets/action_button.xml',

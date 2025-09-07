@@ -1,45 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Container, Sprite, Texture, Text, Rectangle } from 'pixi.js';
-import type { TextStyleOptions } from 'pixi.js';
+import type { TextStyle } from 'pixi.js';
 
 export type ButtonTextures = {
-  default: Texture | string;
-  hover?: Texture | string;
-  pressed?: Texture | string;
-  disabled?: Texture | string;
+    default: Texture | string;
+    hover?: Texture | string;
+    pressed?: Texture | string;
+    disabled?: Texture | string;
 };
 
 export type ButtonOptions = {
-  textures: ButtonTextures;
-  label?: string;
-labelStyle?: Partial<TextStyleOptions>;
-  /** Extra hit slop around the sprite (pixels) */
-  hitPadding?: number;
-  /** Anchor for the sprite + label. 0..1 or {x,y}. Default 0.5 (center). */
-  anchor?: number | { x: number; y: number };
-  /** Start disabled */
-  disabled?: boolean;
-  /** Scale applied while pressed/hovered */
-  hoverScale?: number; // default 1.03
-  pressScale?: number; // default 0.97
-  /** Optional click/press handlers for convenience */
-  onClick?: (ev: any) => void;
-  onDown?: (ev: any) => void;
-  onUp?: (ev: any) => void;
+    textures: ButtonTextures;
+    label?: string;
+    labelStyle?: Partial<TextStyle>;
+    hitPadding?: number;
+    anchor?: number | { x: number; y: number };
+    disabled?: boolean;
+    hoverScale?: number; // default 1.03
+    pressScale?: number; // default 0.97
+    onClick?: (ev: any) => void;
+    onDown?: (ev: any) => void;
+    onUp?: (ev: any) => void;
 };
 
 function tex(input: Texture | string): Texture {
     return typeof input === 'string' ? Texture.from(input) : input;
 }
-
-/**
- * Universal PIXI v8+ Button with state textures, centered label, and pointer/keyboard handling.
- * - Supports default/hover/pressed/disabled textures (only `default` required)
- * - Auto-centered Text label
- * - Event mode + cursor handled for you
- * - Optional hit padding (larger clickable area)
- * - Public API to enable/disable, set label, set textures
- */
 export class Button extends Container {
     private _sprite: Sprite;
     private _label?: Text;
@@ -55,7 +41,8 @@ export class Button extends Container {
         super();
 
         // Event-enabled container
-        this.eventMode = 'static';
+        // this.eventMode = 'static';
+        this.interactive = true;
         this.cursor = 'pointer';
         this.sortableChildren = true;
 
@@ -77,7 +64,7 @@ export class Button extends Container {
         this.addChild(this._sprite);
 
         if (opts.label) {
-            const styleObj: Partial<TextStyleOptions> = {
+            const styleObj: Partial<TextStyle> = {
                 fontFamily: 'Inter, Arial, Helvetica, sans-serif',
                 fontSize: 24,
                 fontWeight: '600',
@@ -85,7 +72,7 @@ export class Button extends Container {
                 fill: 0xffffff,
                 ...opts.labelStyle,
             };
-            this._label = new Text({ text: opts.label, style: styleObj });
+            this._label = new Text(opts.label, styleObj);
             this._label.anchor.set(0.5);
             this._label.zIndex = 10;
             this.addChild(this._label);
@@ -102,8 +89,6 @@ export class Button extends Container {
                 opts.onClick?.(ev);
             });
 
-        // Keyboard accessibility (basic): Space/Enter triggers click when focused.
-        // Make focusable by enabling tabIndex at runtime (PIXI v8 supports DOM-like focus/blur on stage).
         (this as any).tabIndex = 0;
         this.on('keydown', (ev: KeyboardEvent) => {
             if (this._disabled) return;
@@ -119,14 +104,11 @@ export class Button extends Container {
             }
         });
 
-        // Initial state
         if (opts.disabled) this.setDisabled(true);
 
-        // Make hit area a padded rectangle around the sprite (keeps centered anchor)
         this._refreshHitArea();
     }
 
-    /** Change anchor for both sprite and label. */
     setAnchor(anchor: number | { x: number; y: number }) {
         this._applyAnchor(anchor);
     }
@@ -143,9 +125,9 @@ export class Button extends Container {
     }
 
     /** Update label text (creates label if it did not exist). */
-    setLabel(text: string, style?: Partial<TextStyleOptions>) {
+    setLabel(text: string, style?: Partial<TextStyle>) {
         if (!this._label) {
-            this._label = new Text({ text, style: style || {} });
+            this._label = new Text(text, style || {});
             this._label.anchor.set(0.5);
             this._label.zIndex = 10;
             this.addChild(this._label);
@@ -169,12 +151,11 @@ export class Button extends Container {
         this._refreshHitArea();
     }
 
-    /** Enable/disable button. */
     setDisabled(disabled: boolean) {
         this._disabled = disabled;
         this.alpha = disabled ? 0.6 : 1.0;
         this.cursor = disabled ? 'default' : 'pointer';
-        this.eventMode = disabled ? 'none' : 'static';
+        this.interactive = !disabled;
         this._sprite.texture = disabled && this._textures.disabled ? this._textures.disabled : this._textures.default;
         this.scale.set(1);
     }
@@ -185,15 +166,18 @@ export class Button extends Container {
         this._refreshHitArea();
     }
 
+    setPositionLabel(x: number, y: number) {
+        if (!this._label) return;
+        this._label.position.set(x, y);
+    }
+
     private _centerLabel() {
         if (!this._label) return;
-        // Label sits at the visual center of the sprite
         this._label.position.set(0, 0);
     }
 
     private _refreshHitArea() {
         const b = this._sprite.getLocalBounds();
-        // Expand by padding on all sides
         const padded = new Rectangle(
             b.x - this._hitPadding,
             b.y - this._hitPadding,
@@ -258,21 +242,3 @@ export class Button extends Container {
         super.destroy(options);
     }
 }
-
-// ----------------------
-// Usage example
-// ----------------------
-// const button = new UniversalButton({
-//   textures: {
-//     default: 'btn_default.png',
-//     hover: 'btn_hover.png',
-//     pressed: 'btn_pressed.png',
-//     disabled: 'btn_disabled.png',
-//   },
-//   label: 'Play',
-//   labelStyle: { fontSize: 32, fontWeight: '700' },
-//   hitPadding: 12,
-//   onClick: () => console.log('clicked'),
-// });
-// app.stage.addChild(button);
-// button.position.set(400, 300);

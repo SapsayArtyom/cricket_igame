@@ -1,9 +1,13 @@
 export const EVENTS = {
     PLAY: "play",
+    WIN: "win",
+    LOSS: "loss",
     PLAY_SOUND: "play_sound",
     STOP_SOUND: "stop_sound",
     OPEN_SCREEN: "open_screen",
     CREATE_GAME: "create_game",
+    COUNT_HITTER: "count_hitter",
+    COUNT_BET: "count_bet",
 };
 
 export const SCREENS = {

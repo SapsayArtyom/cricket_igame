@@ -25,15 +25,23 @@ export default class WinPanel extends Container {
 
         let text: Text;
         if (first) {
-            text = new Text({
-                text: 'NEXT\n$ 0',
-                style: { fontSize: 24, fill: '#f5de04', align: 'center', stroke: { color: '#00155f', width: 8, join: 'round' }, }
+            text = new Text('NEXT\n$ 0', {
+                fontSize: 26,
+                fontFamily: "Roboto Bold",
+                fill: '#f5de04',
+                align: 'center',
+                stroke: '#00155f',
+                strokeThickness: 4,
+                lineHeight: 30,
             });
             this.winMessages.push(text);
         } else {
-            text = new Text({
-                text: '0',
-                style: { fontSize: 28, fill: '#f5de04', stroke: { color: '#0039e0', width: 8, join: 'round' }, }
+            text = new Text('0', {
+                fontFamily: "Roboto Bold",
+                fontSize: 28,
+                fill: '#fff',
+                stroke: '#0039e0',
+                strokeThickness: 6,
             });
             this.winMessages.push(text);
         }
@@ -43,7 +51,7 @@ export default class WinPanel extends Container {
         );
         container.addChild(text);
         const length = this.children.length;
-        container.x = (container.width + 30) * (length - 1);
+        container.x = (container.width + 45) * (length - 1);
     }
 
     public updateWinMessages(values: number[]) {

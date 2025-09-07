@@ -1,9 +1,12 @@
-import { Sprite } from "pixi.js";
+// import { Sprite } from 'pixi.js';
 import BaseScreen from "./BaseScreen.ts";
 import Controls from "../components/Controls.ts";
 import Board from "../components/Board.ts";
 import WinPanel from "../components/WinPanel.ts";
 import BottomBar from "../components/BottomBar.ts";
+import { spineCache } from '../helpers/loadSpineJSON.ts';
+import { config } from "../configs/config.ts";
+import LeftBar from "../components/LeftBar.ts";
 
 export default class GameScreen extends BaseScreen {
     private board!: Board;
@@ -13,28 +16,29 @@ export default class GameScreen extends BaseScreen {
         super();
 
         this.init();
-        this.addBoard();
-        this.addBetPanel();
-        this.addBetBar();
-        this.addBottomBar();
+        
     }
 
     private init() {
-        // const bg = Spine.from({
-        //     skeleton: "skeleton",
-        //     atlas: "skeletonAtlas"
-        // });
-        // bg.state.setAnimation(0, "Horizontal", true);
-        // this.addChild(bg);
-
-        const bg = Sprite.from('BGLoadLand');
+        const bg = spineCache.createSpine('spines', 'skeleton');
+        bg.state.setAnimation(0, 'Horizontal', true);
+        bg.position.set(config.appWidth / 2, config.appHeight / 2);
         this.addChild(bg);
+
+        this.addBoard();
+        this.addBetPanel();
+        this.addLeftBar();
+        this.addRightBar();
+        this.addBottomBar();
+
+        this.sortChildren();
     }
 
     private addBoard() {
         this.board = new Board();
+        this.board.scale.set(0.952);
         this.board.position.set(
-            this.width / 2 - this.board.width / 2 - 50,
+            (config.appWidth - this.board.width) / 2 - 20,
             -12
         );
         this.addChild(this.board);
@@ -42,27 +46,35 @@ export default class GameScreen extends BaseScreen {
 
     private addBetPanel() {
         const panel = new WinPanel();
+        panel.scale.set(0.955);
         panel.position.set(
             (this.board.width / 2 - panel.width / 2) + this.board.x,
-            30
+            27
         );
         this.addChild(panel);	
     }
 
-    private addBetBar() {
+    private addRightBar() {
         const betControls = new Controls();
         betControls.position.set(
-            this.width - betControls.width - 30, 
-            120
+            config.appWidth - betControls.width - 25, 
+            115
         );
+        betControls.zIndex = 10;
         this.addChild(betControls);
+    }
+
+    private addLeftBar() {
+        const leftBar = new LeftBar();
+        leftBar.position.set(20, 45);
+        this.addChild(leftBar);
     }
 	
     private addBottomBar() {
         const bottomBar = new BottomBar();
         bottomBar.position.set(
-            this.width / 2 - bottomBar.width / 2,
-            this.height - bottomBar.height
+            0,
+            this.board.getBounds().bottom
         );
         this.addChild(bottomBar);
     }

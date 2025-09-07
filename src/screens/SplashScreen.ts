@@ -12,14 +12,12 @@ export default class SplashScreen extends BaseScreen {
 
         this.barContainer = new Container();
         this.fillBar = Sprite.from('loading_bar_middle');
-		
+        console.log('fillBar', this.fillBar);
+        
         this.init();
         this.addBar();
 		
-        this.text = new Text({
-            text: "0%",
-            style: config.styles.loading
-        });
+        this.text = new Text("0%", config.styles.loading);
         this.text.position.set(
             this.fillBar.getBounds().right + 10,
             (this.barContainer.height - this.text.height) / 2
@@ -60,10 +58,10 @@ export default class SplashScreen extends BaseScreen {
         this.barContainer.addChild(this.fillBar);
     }
 
-    public update(num: number) {
+    public update(num: number | string) {
         console.log(`Loading progress: ${num}%`);
         const defaultWidth = this.barContainer.getBounds().width - 160;
-        const width = (defaultWidth * num) / 100;
+        const width = (defaultWidth * (typeof num === "string" ? parseFloat(num) : num)) / 100;
         this.fillBar.width = width;
         this.text.text = `${num}%`;
         this.text.position.set(
