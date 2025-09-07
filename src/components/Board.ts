@@ -8,6 +8,7 @@ import { randomFloat, randomInt } from "../helpers/math";
 export default class Board extends Container {
     private board!: Sprite;
     private grid!: Container;
+    private step: number = 0;
 
     constructor() {
         super();
@@ -44,6 +45,7 @@ export default class Board extends Container {
     }
 
     private startGame() {
+        this.step = 0;
         this.grid.children.forEach((cell) => {
             // (cell as Cell).addPreview();
             (cell as Cell).reset();
@@ -51,6 +53,8 @@ export default class Board extends Container {
     }
 
     private play(cell: Cell) {
+        this.step++;
+        globalEventEmitter.emit(EVENTS.SHOOT, {bullets: config.cells - this.step});
         const chance = randomInt(0, 10);
         if (chance > 3) {
             const amount = (randomFloat(2, 6));

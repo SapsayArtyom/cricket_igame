@@ -25,6 +25,7 @@ export default class BottomBar extends Container {
 
     private subscribeToEvents() {
         globalEventEmitter.on(EVENTS.PLAY, this.updBalls.bind(this));
+        globalEventEmitter.on(EVENTS.SHOOT, this.updBalls.bind(this));
     }
 
     private addWallet(amount: number) {

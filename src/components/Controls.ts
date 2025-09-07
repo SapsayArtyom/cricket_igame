@@ -46,6 +46,7 @@ export default class Controls extends Container {
 
     private subscribeToEvents() {
         globalEventEmitter.on(EVENTS.LOSS, () => this.disableControls(false));
+        globalEventEmitter.on(EVENTS.SHOOT, () => this.animHand());
     }
 
     private initBetControls() {
@@ -183,13 +184,6 @@ export default class Controls extends Container {
             label: 'PLAY',
             labelStyle: config.styles.buttonLabel,
             onClick: () => {
-                // this.playBtn.visible = false;
-                // this.betBtn.visible = true;
-                // globalEventEmitter.emit(EVENTS.PLAY, { 
-                //     bullets: this.bullets - (this.hitterValue - 1), 
-                //     bet: this.betValue, 
-                //     hitter: this.hitterValue
-                // });
                 this.playGame();
             }
         });
@@ -272,4 +266,8 @@ export default class Controls extends Container {
         this.betBtn.setDisabled(!bool);
     }
 
+    private animHand() {
+        this.hand.state.setAnimation(0, 'Shoot', false);
+        this.hand.state.addAnimation(0, 'Idle_pistol_on', true, 0);
+    }
 }
