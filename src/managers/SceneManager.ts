@@ -1,32 +1,40 @@
 import { Container } from "pixi.js";
 import { EVENTS, SCREENS } from "../helpers/events";
-import globalEventEmitter from "../helpers/GlobalEventEmitters";
+// import globalEventEmitter from "../helpers/GlobalEventEmitters";
 import BaseScreen from "../screens/BaseScreen";
 import SplashScreen from "../screens/SplashScreen";
 import HowToPlayScreen from "../screens/HowToPlayScreen";
 import GameScreen from "../screens/GameScreen";
+import globalEventEmitter from "../helpers/GlobalEventEmitters";
 
 export default class SceneManager {
-    private gameContainer: Container;
+    private static instance: SceneManager;
+    private gameContainer!: Container;
     private isInitScenes: boolean;
     private screens: Map<string, BaseScreen> = new Map();
     private currentScreen: string | null = null;
 
-    constructor(container: Container) {
-        this.gameContainer = container;
+    constructor(container?: Container) {
+        this.gameContainer = container!;
         this.isInitScenes = false;
-        // this.subscribeToEvents();
-        this.initSplashScreen();
+        this.subscribeToEvents();
     }
 
     private subscribeToEvents() {
         globalEventEmitter.on(EVENTS.OPEN_SCREEN, (screen: string) => this.changeScreen(screen));
-        globalEventEmitter.on(EVENTS.CREATE_GAME, () => this.init());
     }
 
-    private initSplashScreen(): void {
+    public static getInstance(container?: Container): SceneManager {
+        if (!SceneManager.instance) {
+            SceneManager.instance = new SceneManager(container);
+        }
+        return SceneManager.instance;
+    }
+
+    public initSplashScreen(): void {
         const splashScreen = new SplashScreen();
         this.screens.set(SCREENS.SPLASH, splashScreen);
+        splashScreen.show();
         this.gameContainer.addChild(splashScreen);
     }
     

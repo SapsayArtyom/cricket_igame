@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Spine } from "pixi-spine";
-import { Container, Sprite, Text } from "pixi.js";
+import { Container, Sprite, Text, Texture } from "pixi.js";
 import { spineCache } from "../helpers/loadSpineJSON";
 import { setSkinByName } from "../helpers/spineSkine";
 import gsap from "gsap";
 import { randomInt } from "../helpers/math";
 import { config } from "../configs/config";
+import { EVENTS, SOUNDS } from "../helpers/events";
+import globalEventEmitter from "../helpers/GlobalEventEmitters";
 
 export default class Cell extends Container {
     private spineCell!: Spine;
@@ -13,6 +16,8 @@ export default class Cell extends Container {
     private previewCell!: Sprite;
     private winLabel!: Text;
     private winLabelContainer!: Container;
+    private disabledContainer!: Container;
+    private arrTextures: Texture[] = [];
 
     public isPlayed: boolean = false;
 
@@ -55,11 +60,28 @@ export default class Cell extends Container {
         const bg = Sprite.from('Panel-infocoin-portrait');
         bg.anchor.set(0.5);
         bg.rotation = Math.PI / 2;
-        bg.scale.set(0.995);
         this.winLabel = new Text(`X 0`, config.styles.winLabelCell);
         this.winLabelContainer.addChild(bg, this.winLabel);
         this.winLabelContainer.visible = false;
         this.winLabelContainer.y = 50;
+
+        this.disabledContainer = new Container();
+        this.addChild(this.disabledContainer);
+        const disBg = Sprite.from('coin-bags-portrait-icon');
+        disBg.name = 'disBg';
+        // const ww = disBg.width;
+        // disBg.width = disBg.height;
+        // disBg.height = ww;
+        disBg.anchor.set(0.5);
+        disBg.scale.set(0.98);
+        this.disabledContainer.addChild(disBg);
+        const disOverlay = Sprite.from('greyout-portrait-panel');
+        disOverlay.anchor.set(0.5);
+        disOverlay.scale.set(0.98);
+        this.arrTextures.push(Texture.from('coin-bags-portrait-icon'));
+        this.arrTextures.push(Texture.from('TNT-in-game-icon'));
+        this.disabledContainer.addChild(disOverlay);
+        this.disabledContainer.visible = false;
     }
 
     public addPreview() {
@@ -68,7 +90,7 @@ export default class Cell extends Container {
         this.buttonMode = true;
     }
 
-    public play(amount: number) {
+    public play(index: number, isEndgame: boolean = false) {
         this.previewCell.alpha = 0;
         this.interactive = false;
         this.buttonMode = false;
@@ -86,11 +108,18 @@ export default class Cell extends Container {
             duration: 0.5,
             onComplete: () => {
                 this.ballLoader.scale.set(0);
-                if (amount) {
+                if (index) {
+                    const amount = config.multipliers[index - 1];
                     this.winCell(amount);
+                    globalEventEmitter.emit(EVENTS.UPDATE_CASHOUT, {amount: amount * config.currentBet, index});
+                    globalEventEmitter.emit(EVENTS.PLAY_SOUND, SOUNDS.BAG_OF_MONEY_REVEALED);
+                    if (isEndgame) globalEventEmitter.emit(EVENTS.END_GAME);
                 } else {
                     this.playLossCell();
+                    globalEventEmitter.emit(EVENTS.PLAY_SOUND, SOUNDS.TNT_REVEALED);
+                    globalEventEmitter.emit(EVENTS.LOGO_SHINE);
                 }
+                globalEventEmitter.emit(EVENTS.PLAY_SOUND, SOUNDS.GENERAL_AMBIANCE);
             }
         });
     }
@@ -110,16 +139,41 @@ export default class Cell extends Container {
         );
     }
 
-    private playLossCell() {
+    private async playLossCell() {
         this.winLabelContainer.visible = false;
         this.spineCell.visible = false;
         this.lossCell.visible = true;
         this.lossCell.state.setAnimation(0, 'TNT2', false);
         this.lossCell.state.timeScale = 1;
+
+        this.lossCell.state.addListener({
+            complete: (entry) => {
+                const animationEntry = entry as any;
+                if (animationEntry.animation && animationEntry.animation.name === 'TNT2') {
+                    globalEventEmitter.emit(EVENTS.DISABLE_BOARD);
+                }
+            }
+        });
+    }
+
+    public hideWinLabel() {
+        this.winLabelContainer.visible = false;
     }
 
     public onClick(callback: () => void) {
         this.on('pointerdown', callback);
+    }
+
+    public disableCell(bool: boolean = true, isDeflect: boolean = false) {
+        if (isDeflect) (this.disabledContainer.children[0] as Sprite).texture = this.arrTextures[1];
+        else {
+            (this.disabledContainer.children[0] as Sprite).texture = this.arrTextures[0];
+            const sprite = this.disabledContainer.children[0] as Sprite;
+            sprite.width = 93;
+            sprite.height = 139;
+        }
+        this.previewCell.alpha = 0;
+        this.disabledContainer.visible = bool;
     }
 
     public reset() {
@@ -127,6 +181,7 @@ export default class Cell extends Container {
         this.spineCell.alpha = 0;
         this.lossCell.visible = false;
         this.winLabelContainer.visible = false;
+        this.disableCell(false);
         this.addPreview();
     }
 }

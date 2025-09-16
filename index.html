@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css">
     <title>PixiJS - Template</title>
+    <script>
+        const origGroupCollapsed = console.groupCollapsed?.bind(console);
+        const origWarn = console.warn.bind(console);
+        let suppressNextWarnStack = false;
+        console.groupCollapsed = (...args) => {
+            const first = args[0];
+            if (typeof first === 'string' && first.includes('PixiJS Deprecation Warning')) {
+                suppressNextWarnStack = true;
+                return;
+            }
+            origGroupCollapsed?.(...args);
+        };
+
+        console.warn = (...args) => {
+            if (suppressNextWarnStack) {
+                suppressNextWarnStack = false;
+                return;
+            }
+            if (typeof args[0] === 'string' && args[0].includes('PixiJS Deprecation Warning')) {
+                suppressNextWarnStack = true;
+                return;
+            }
+            origWarn(...args);
+        };
+    </script>
 </head>
 
 <body>

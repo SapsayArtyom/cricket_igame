@@ -8,6 +8,7 @@ export default class SoundManager {
     private static instance: SoundManager;
     protected isMusic: boolean = false;
     protected isSound: boolean = false;
+    protected generalSoundPlaying: boolean = false;
 
     constructor() {
         this.subscribeToEvents();
@@ -28,11 +29,20 @@ export default class SoundManager {
     }
 
     private startSound(soundName: string, isLoop: boolean) {
-        sound.play(soundName, { loop: isLoop });
+        if(soundName === 'general_ambiance') this.checkGeneralSound(soundName, isLoop);
+        else sound.play(soundName, { loop: isLoop });
     }
 
     private stopSound(soundName: string) {
         sound.stop(soundName);
+    }
+
+    private checkGeneralSound(soundName: string, isLoop: boolean) {
+        if (this.generalSoundPlaying) return;
+        else {
+            sound.play(soundName, { loop: isLoop });
+            this.generalSoundPlaying = true;
+        }
     }
 
     public setSettings(key: ISoundItem, value: boolean) {
@@ -43,6 +53,20 @@ export default class SoundManager {
             case 'sound':
                 this.isSound = value;
                 break;
+        }
+    }
+
+    public addSounds(sounds: { name: string; srcs: string }[]) {
+        sounds.forEach((item) => {
+            sound.add(item.name, item.srcs);
+        });
+    }
+
+    public soundMuteUnmute(mute: boolean) {
+        if (mute) {
+            sound.muteAll();
+        } else {
+            sound.unmuteAll();
         }
     }
 }

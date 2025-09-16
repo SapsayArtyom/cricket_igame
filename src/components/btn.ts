@@ -18,9 +18,11 @@ export type ButtonOptions = {
     disabled?: boolean;
     hoverScale?: number; // default 1.03
     pressScale?: number; // default 0.97
+    swipeSize?: boolean;
     onClick?: (ev: any) => void;
     onDown?: (ev: any) => void;
     onUp?: (ev: any) => void;
+    onOver?: (ev: any) => void;
 };
 
 function tex(input: Texture | string): Texture {
@@ -40,8 +42,6 @@ export class Button extends Container {
     constructor(opts: ButtonOptions) {
         super();
 
-        // Event-enabled container
-        // this.eventMode = 'static';
         this.interactive = true;
         this.cursor = 'pointer';
         this.sortableChildren = true;
@@ -59,6 +59,11 @@ export class Button extends Container {
 
         // Sprite (base visual)
         this._sprite = new Sprite(this._textures.default);
+        if (opts.swipeSize)  {
+            const ww = this._sprite.width;
+            this._sprite.width = this._sprite.height;
+            this._sprite.height = ww;
+        }
         this._sprite.anchor.set(0.5);
         this._applyAnchor(opts.anchor);
         this.addChild(this._sprite);
@@ -153,7 +158,7 @@ export class Button extends Container {
 
     setDisabled(disabled: boolean) {
         this._disabled = disabled;
-        this.alpha = disabled ? 0.6 : 1.0;
+        this.alpha = disabled ? 0.5 : 1.0;
         this.cursor = disabled ? 'default' : 'pointer';
         this.interactive = !disabled;
         this._sprite.texture = disabled && this._textures.disabled ? this._textures.disabled : this._textures.default;
@@ -169,6 +174,15 @@ export class Button extends Container {
     setPositionLabel(x: number, y: number) {
         if (!this._label) return;
         this._label.position.set(x, y);
+    }
+
+    setAlphaLabel(alpha: number) {
+        if (!this._label) return;
+        this._label.alpha = alpha;
+    }
+
+    setTint(tint: number) {
+        this._sprite.tint = tint;
     }
 
     private _centerLabel() {
@@ -187,10 +201,12 @@ export class Button extends Container {
         this.hitArea = padded;
     }
 
-    private _onOver() {
+    private _onOver(ev: any) {
         if (this._disabled) return;
         if (this._textures.hover) this._sprite.texture = this._textures.hover;
         this.scale.set(this._hoverScale);
+        const onOver = (this as any).onOver as ButtonOptions['onOver'];
+        onOver?.(ev);
     }
 
     private _onOut() {

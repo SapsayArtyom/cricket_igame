@@ -6,7 +6,6 @@ import type { Skeleton, Skin } from '@pixi-spine/runtime-3.7';
 /** Имена всех скинов */
 export function getSkinNames(spine: Spine): string[] {
     const sk = spine.skeleton as unknown as Skeleton;
-    console.log('getSkinNames sk', spine.skeleton);
 	
     // В 3.7 SkeletonData.skins — массив { name, ... }
     return sk.data.skins.map((s: Skin & { name: string }) => s.name);
@@ -88,6 +87,8 @@ function copySkinAttachments(target: any, source: any, data: any) {
 function snapshotTracks(spine: Spine) {
     const entries: Array<{ index: number; name: string; loop: boolean; trackTime: number; timeScale: number }> = [];
     for (let i = 0; i < 8; i++) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const e = spine.state.getCurrent(i as any);
         if (!e?.animation) continue;
         entries.push({

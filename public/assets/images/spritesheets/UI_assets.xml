@@ -6,8 +6,8 @@
     <SubTexture name="info-higlight-state" x="121" y="1" width="66" height="64" frameX="0" frameY="-1" frameWidth="66" frameHeight="66"/>
     <SubTexture name="info-press-state" x="189" y="1" width="66" height="64" frameX="0" frameY="-1" frameWidth="66" frameHeight="66"/>
     <SubTexture name="Info-sound-bar" x="69" y="67" width="174" height="62"/>
-    <SubTexture name="minus_button" x="1" y="1" width="58" height="58" frameX="-1" frameY="-1" frameWidth="61" frameHeight="60"/>
-    <SubTexture name="plus_button" x="61" y="1" width="58" height="58" frameX="-1" frameY="-1" frameWidth="61" frameHeight="60"/>
+    <SubTexture name="minus_button_s" x="1" y="1" width="58" height="58" frameX="-1" frameY="-1" frameWidth="61" frameHeight="60"/>
+    <SubTexture name="plus_button_s" x="61" y="1" width="58" height="58" frameX="-1" frameY="-1" frameWidth="61" frameHeight="60"/>
     <SubTexture name="Sound-disable-state" x="1" y="129" width="66" height="66"/>
     <SubTexture name="Sound-Highlight-state" x="69" y="131" width="66" height="66"/>
     <SubTexture name="Sound-normal-state" x="137" y="131" width="66" height="66"/>

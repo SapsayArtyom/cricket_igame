@@ -1,18 +1,21 @@
 import { Container, Sprite, Text } from "pixi.js";
 import BaseScreen from "./BaseScreen";
 import { config } from "../configs/config";
+import { getGradientTexture, isMobile } from "../helpers/helper";
 
 export default class SplashScreen extends BaseScreen {
     private barContainer: Container;
     private fillBar: Sprite;
     private text: Text;
+    private mobile: boolean = false;
 
     constructor() {
         super();
 
+        this.mobile = isMobile();
+
         this.barContainer = new Container();
         this.fillBar = Sprite.from('loading_bar_middle');
-        console.log('fillBar', this.fillBar);
         
         this.init();
         this.addBar();
@@ -26,19 +29,21 @@ export default class SplashScreen extends BaseScreen {
     }
 
     private init() {
-        const bg = Sprite.from('BGLoadLand');
+        const bg = Sprite.from(this.mobile ? 'BGLoadPort' : 'BGLoadLand');
         this.addChild(bg);
     }
 
     private addBar() {
         this.addChild(this.barContainer);
-        this.barContainer.y = 905;
+        const paddingLeft = this.mobile ? 100 : 190;
+        const paddingBottom = this.mobile ? 250 : 175;
+        this.barContainer.y = config.appHeight - paddingBottom;
 
         const barEmptyStart = Sprite.from('loading_bar_empty_end');
-        barEmptyStart.x = 190;
+        barEmptyStart.x = paddingLeft;
         this.barContainer.addChild(barEmptyStart);
         const barEmptyEnd = Sprite.from('loading_bar_empty_end');
-        barEmptyEnd.x = this.width - 190;
+        barEmptyEnd.x = this.width - paddingLeft;
         barEmptyEnd.scale.x = -1;
         this.barContainer.addChild(barEmptyEnd);
         const barEmpty = Sprite.from('loading_bar_empty_middle');
@@ -58,14 +63,18 @@ export default class SplashScreen extends BaseScreen {
         this.barContainer.addChild(this.fillBar);
     }
 
-    public update(num: number | string) {
-        console.log(`Loading progress: ${num}%`);
+    public update(num: number) {
+        const upgradeBackColor = getGradientTexture([{ percent: 0, color: 'rgba(255, 255, 255, 1)' },
+            { percent: 1, color: 'rgba(224, 247, 3, 1)' }]);
+        const ww = num;
         const defaultWidth = this.barContainer.getBounds().width - 160;
-        const width = (defaultWidth * (typeof num === "string" ? parseFloat(num) : num)) / 100;
+        const width = (defaultWidth * ww) / 100;
         this.fillBar.width = width;
-        this.text.text = `${num}%`;
+        this.fillBar.height = 48;
+        this.fillBar.texture = upgradeBackColor;
+        this.text.text = `${num.toFixed(0)}%`;
         this.text.position.set(
-            this.fillBar.getBounds().right + 10,
+            this.fillBar.getBounds().right + 20,
             (this.barContainer.height - this.text.height) / 2
         );
     }

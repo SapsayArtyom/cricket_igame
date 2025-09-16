@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--  Created with TexturePacker https://www.codeandweb.com/texturepacker  -->
-<!--  $TexturePacker:SmartUpdate:0814d39c844bf3a493903d400d523e08:2f850e076ef9c759cf3edbac2d5efcd2:c817eceb7f6bd39a98eac430779f84be$  -->
-<TextureAtlas imagePath="UI-Intro-0.png" width="835" height="118">
-<SubTexture name="intro_dot_empty" x="762" y="1" width="72" height="72"/>
-<SubTexture name="intro_dot_full" x="664" y="1" width="96" height="96"/>
-<SubTexture name="tap_base" x="1" y="1" width="661" height="116"/>
-</TextureAtlas>
